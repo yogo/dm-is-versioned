@@ -83,7 +83,7 @@ module DataMapper
                 property.class
               end
 
-              options = property.options.merge(:key => property.name == @on)
+              options = property.options.merge(:key => @on.include?(property))
 
               options[:key] = true if options.delete(:serial)
 
