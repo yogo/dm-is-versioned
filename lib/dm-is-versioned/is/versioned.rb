@@ -121,12 +121,15 @@ module DataMapper
         # The versions are related on the models keys, and ordered
         # by the version field.
         #
+        # Add :updated_at as another order by column (hard coded!)
+        # TODO: make this just be the @on variable from above
+        #
         # --
         # @return <Collection>
         def versions
           version_model = model.const_get(:Version)
           query = Hash[ model.key.zip(key).map { |p, v| [ p.name, v ] } ]
-          query.merge(:order => version_model.key.map { |k| k.name.desc })
+          query.merge!(:order => version_model.key.map { |k| k.name.desc } + [:updated_at.desc])
           version_model.all(query)
         end
       end # InstanceMethods
