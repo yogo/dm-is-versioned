@@ -81,12 +81,11 @@ module DataMapper
               end
 
               options = property.options.merge(:key => property.name == @on)
-
+              options[:key] = true if property.name == 'updated_at'
               options[:key] = true if options.delete(:serial)
-
               model.property(property.name, type, options)
             end
-
+            model.property('updated_at', DateTime, :key => true)
             model
           else
             super
